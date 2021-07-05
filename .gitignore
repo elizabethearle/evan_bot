@@ -1,1 +1,3 @@
 token.json
+.idea/*
+__pycache__/*
