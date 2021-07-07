@@ -28,6 +28,14 @@ class QuestionHelper:
         url = self.base_url + "api_category.php"
         res = requests.get(url).json()
         return res["trivia_categories"]
+    
+    def is_category(self, category) -> bool:
+        is_category = False
+        categories = self.list_categories()
+        for c in categories:
+            if str(c["id"]) == category:
+                is_category = True
+        return is_category
 
     def load_questions(self, num_questions: int = 50) -> int:
         """
