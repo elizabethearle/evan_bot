@@ -9,6 +9,7 @@ cp = "!"
 test_question = "This is a test"
 
 game = QuestionHelper()
+question = Question("","","","","")
 
 answers = dict()
 is_q_active = False
@@ -24,9 +25,10 @@ client.command_prefix = cp
 @client.event
 async def on_message(message):
     await client.process_commands(message)
-
     name = str(message.author)
     msg = str(message.content)
+    if msg[0] == "!":
+        return
 
     if is_q_active:
         answers[name] = msg.lower()
@@ -53,7 +55,9 @@ async def setup(ctx, num_questions, category):
 # sends a question to the chat
 @client.command()
 async def question(ctx):
-    await ctx.send(test_question)
+    global question
+    question = game.get_next_question()
+    await ctx.send(question.question)
     global is_q_active
     is_q_active = True
 
