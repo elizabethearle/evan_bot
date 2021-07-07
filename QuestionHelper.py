@@ -49,7 +49,8 @@ class QuestionHelper:
         url = self.base_url + "api.php"
         params = {
             "amount": num_questions,
-            "token": self.session_token
+            "token": self.session_token,
+            "category": self.category
         }
         res = requests.get(url, params).json()
         json_questions = res["results"]
