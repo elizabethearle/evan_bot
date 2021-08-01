@@ -11,6 +11,7 @@ test_question = "This is a test"
 
 game = QuestionHelper()
 question = Question("","","","","")
+game.get_session_token()
 
 answers = dict()
 scores = dict()
@@ -48,7 +49,6 @@ async def setup(ctx, num_questions, category):
     num_questions = int(num_questions)
     category_name = ""
     game.set_category(category)
-    game.get_session_token()
     actual_num = game.load_questions(num_questions)
 
     for c in game.list_categories():
@@ -56,7 +56,6 @@ async def setup(ctx, num_questions, category):
             category_name = c["name"]
 
     await ctx.send(f"A game with {actual_num} questions in the category {category_name} is ready")
-    await ctx.send("Use !question to get the next question")
 
 
 # sends a question to the chat
@@ -85,7 +84,7 @@ async def question(ctx):
 
 # ends answering period
 @client.command()
-async def end(ctx):
+async def end_q(ctx):
     global is_q_active
     global scores
     is_q_active = False
@@ -120,11 +119,12 @@ async def score(ctx):
 
 
 # ends the game
-# !!! what are you doing with token?
 @client.command()
 async def end_game(ctx):
+    global scores
     await ctx.send(f"The final scores are:\n {format_scores(scores)}")
-
+    scores = {}
+    game.reset()
 
 
 # helper functions
