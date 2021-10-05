@@ -3,11 +3,10 @@ import random
 from bs4 import BeautifulSoup
 from discord.ext import commands
 from QuestionHelper import QuestionHelper
-from Question import Question # !!! is there a better way to import these?
+from Question import Question 
 
 # variables
 cp = "!"
-test_question = "This is a test"
 
 game = QuestionHelper()
 question = Question("","","","","")
@@ -47,6 +46,8 @@ async def setup(ctx, num_questions, category):
         await ctx.send("The number you entered doesn't seem to correspond to a category. Here are the categories:\n" + categories())
         return
     num_questions = int(num_questions)
+    if num_questions > 50:
+        num_questions = 50
     category_name = ""
     game.set_category(category)
     actual_num = game.load_questions(num_questions)
@@ -84,7 +85,7 @@ async def question(ctx):
 
 # ends answering period
 @client.command()
-async def end_q(ctx):
+async def ans(ctx):
     global is_q_active
     global scores
     is_q_active = False
@@ -120,7 +121,7 @@ async def score(ctx):
 
 # ends the game
 @client.command()
-async def end_game(ctx):
+async def end(ctx):
     global scores
     await ctx.send(f"The final scores are:\n {format_scores(scores)}")
     scores = {}
